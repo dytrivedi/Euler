@@ -38,6 +38,10 @@ var gridArray = gridString.split(' ');
 var len = gridArray.length;
 var maxProduct = 1;
 var grid = [];
+var directions = [[0, 1],
+                  [1, 0],
+                  [1, 1],
+                  [1, -1]];
 
 for (var i = 0; i < len; i++) {
     gridArray[i] = parseInt(gridArray[i], 10);
@@ -50,28 +54,15 @@ for (var i = 0; i < 20; i++) {
 len = grid.length;
 for (var i = 0; i < len; i++) {
     for (var j = 0; j < grid[i].length; j++) {
-        var product1 = 1;
-        var product2 = 1;
-        var product3 = 1;
-        var product4 = 1;
-        for (var k = 0; k < 4; k++) {
-            if (grid[i][j + k]) {
-                product1 = product1 * grid[i][j + k];
+        for (var l = 0; l < directions.length; l++) {
+            var product = 1;
+            for (var k = 0; k < 4; k++) {
+                if (grid[i + k] && grid[i + (k * directions[l][0])][j + (k * directions[l][1])]) {
+                    product = product * grid[i + (k * directions[l][0])][j + (k * directions[l][1])];
+                }
             }
-            if (grid[i + k] && grid[i + k][j]) {
-                product2 = product2 * grid[i + k][j];
-            }
-            if (grid[i + k] && grid[i + k][j + k]) {
-                product3 = product3 * grid[i + k][j + k];
-            }
-            if (grid[i + k] && grid[i + k][j - k]) {
-                product4 = product4 * grid[i + k][j - k];
-            }
+            if (product > maxProduct) { maxProduct = product; }
         }
-        if (product1 > maxProduct) { maxProduct = product1; }
-        if (product2 > maxProduct) { maxProduct = product2; }
-        if (product3 > maxProduct) { maxProduct = product3; }
-        if (product4 > maxProduct) { maxProduct = product4; }
     }
 }
 
