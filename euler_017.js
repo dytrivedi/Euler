@@ -69,7 +69,10 @@ function numberToWords(num) {
 
     if (num > 999) {
         temp = parseInt(num / 1000, 10);
-        numberString = toWord(temp.toString()) + 'thousand' + numberString;
+        temp = parseInt(temp % 1000, 10);
+        if (temp) {
+            numberString = toWord(temp.toString()) + 'thousand' + numberString;
+        }
     }
 
     return numberString;
