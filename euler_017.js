@@ -78,10 +78,11 @@ function numberToWords(num) {
         if (currentNum < 20) {
             currentWord = words[currentNum.toString()];
         } else {
-            currentWord = tens[parseInt(currentNum / 10, 10).toString()] + words[(currentNum % 10).toString()];
+            currentWord = tens[parseInt(currentNum / 10, 10).toString()] + ' ' + words[(currentNum % 10).toString()];
         }
 
-        numberString =  currentWord + (currentWord && rule.unit ? rule.unit : '') + (numberString && rule.suffix ? rule.suffix : '') +  numberString;
+        numberString =  currentWord + (currentWord && rule.unit ? (' ' + rule.unit) : '') + (numberString && rule.suffix ? (' ' + rule.suffix) : '') + ' ' +  numberString;
+        numberString = numberString.trim();
 
         n = parseInt(n / Math.pow(10, rule.places), 10);
 
@@ -93,7 +94,7 @@ function numberToWords(num) {
 
 var sum = 0;
 for (var i = 1; i <= 1000; i++) {
-    sum = sum + numberToWords(i).length;
+    sum = sum + numberToWords(i).split(' ').join('').length;
 }
 
 // TODO: return your answer for this prompt.
