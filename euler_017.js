@@ -44,42 +44,54 @@ var tens = {
     "8": "eighty",
     "9": "ninety"
 };
+var rules = [
+    {
+        places: 2
+    },
+    {
+        places : 1,
+        unit   : 'hundred',
+        suffix : 'and'
+    },
+    {
+        places : 2,
+        unit   : 'thousand'
+    }
+];
 
 function numberToWords(num) {
-    var temp, numberString = '';
-    function toWord(n) {
-        var nS = '';
-        if (n < 20) {
-            nS = nS + words[n.toString()];
+    var numberString = '';
+
+    function toWord(n, index) {
+        if (n === 0) {
+            return numberString;
+        }
+
+        if (index > rules.length - 1) {
+            throw new Error ('unsupported number');
+        }
+
+        var currentNum, currentWord, rule = rules[index];
+        currentNum = n % Math.pow(10, rule.places);
+        currentWord = '';
+
+        if (currentNum < 20) {
+            currentWord = words[currentNum.toString()];
         } else {
-            nS = nS + tens[parseInt(n/10, 10).toString()] + words[(n % 10).toString()];
+            currentWord = tens[parseInt(currentNum / 10, 10).toString()] + words[(currentNum % 10).toString()];
         }
-        return nS;
-    }
-    temp = num % 100;
-    numberString = numberString + toWord(temp.toString());
 
-    if (num > 99) {
-        temp = parseInt(num / 100, 10);
-        temp = parseInt(temp % 10, 10);
-        if (temp) {
-            numberString = toWord(temp.toString()) + 'hundred' + (numberString ? 'and' : '')  + numberString;
-        }
+        numberString =  currentWord + (currentWord && rule.unit ? rule.unit : '') + (numberString && rule.suffix ? rule.suffix : '') +  numberString;
+
+        n = parseInt(n / Math.pow(10, rule.places), 10);
+
+        return toWord(n, ++index);
     }
 
-    if (num > 999) {
-        temp = parseInt(num / 1000, 10);
-        temp = parseInt(temp % 100, 10);
-        if (temp) {
-            numberString = toWord(temp.toString()) + 'thousand' + numberString;
-        }
-    }
-
-    return numberString;
+    return toWord(num, 0);
 }
 
 var sum = 0;
-
 for (var i = 1; i <= 1000; i++) {
     sum = sum + numberToWords(i).length;
 }
