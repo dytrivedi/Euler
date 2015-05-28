@@ -87,3 +87,38 @@ for (var i = 0; i < len; i++) {
 
 
 return maxProduct;
+
+====================================================
+Find if a number is a power of 2 or not.
+
+function isPowerOfTwo(n) {
+  var number = n ;
+  
+  if((n&(n - 1)) == 0){
+    console.log("yes")
+  }
+  else{
+  
+    console.log("no");
+  
+  }
+  
+};
+
+
+isPowerOfTwo(8);
+
+===================================================
+
+
+function palindrome(str) {
+    var len = str.length;
+    for ( var i = 0; i < Math.floor(len/2); i++ ) {
+        if (str[i] !== str[len - 1 - i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+palindrome("aba");
