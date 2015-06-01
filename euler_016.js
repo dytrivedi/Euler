@@ -14,7 +14,7 @@ function multiplyByX(x) {
         var carry = 0;
         for (var i = arr.length - 1; i >= 0; i--) {
             var result = parseInt(arr[i], 10);
-            result = (result * 2) + carry;
+            result = (result * x) + carry;
             carry = parseInt(result / 10, 10);
             result = result % 10;
             arr[i] = result;
