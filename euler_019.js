@@ -19,50 +19,34 @@
 
 var days        = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-var currentYear        = 1900;
-var currentMonth       = 1;
-var currentDay         = 1;
 var currentDayOfWeek   = 1;
-var daysInCurrentMonth = daysInMonth[currentMonth - 1];
 var sumOfSundays       = 0;
 
-while(true) {
-    if (currentYear >= 1901) {
-        sumOfSundays += ((days[currentDayOfWeek - 1] === 'Sunday' && currentDay === 1) ? 1 : 0);
-    }
-
-    if (currentDay === 31 && currentMonth === 12 && currentYear === 2000) {
-        break;
-    }
-
-    if (currentDay < daysInCurrentMonth) {
-        currentDay++;
-    } else {
-        currentDay = 1;
-        if (currentMonth < 12) {
-            currentMonth ++;
-        } else {
-            currentMonth = 1;
-            currentYear++;
-        }
-        if (currentMonth === 2) {
-            if (currentYear % 4 === 0) {
-                if (currentYear % 400 === 0) {
-                    daysInCurrentMonth = daysInMonth[currentMonth - 1] + 1;
-                } else if (currentYear % 100 === 0) {
-                    daysInCurrentMonth = daysInMonth[currentMonth - 1];
+for (var year = 1900; year <= 2000; year++) {
+    for (var month = 1; month <= 12; month++) {
+        var daysInCurrentMonth;
+        if (month === 2) {
+            if (year % 4 === 0) {
+                if (year % 400 === 0) {
+                    daysInCurrentMonth = daysInMonth[month - 1] + 1;
+                } else if (year % 100 === 0) {
+                    daysInCurrentMonth = daysInMonth[month - 1];
                 } else {
-                    daysInCurrentMonth = daysInMonth[currentMonth - 1] + 1;
+                    daysInCurrentMonth = daysInMonth[month - 1] + 1;
                 }
             } else {
-                daysInCurrentMonth = daysInMonth[currentMonth - 1];
+                daysInCurrentMonth = daysInMonth[month - 1];
             }
         } else {
-            daysInCurrentMonth = daysInMonth[currentMonth - 1];
+            daysInCurrentMonth = daysInMonth[month - 1];
+        }
+        for (var day = 1; day <= daysInCurrentMonth; day++) {
+            if (year >= 1901) {
+                sumOfSundays += ((days[currentDayOfWeek - 1] === 'Sunday' && day === 1) ? 1 : 0);
+            }
+            currentDayOfWeek = currentDayOfWeek < 7 ? (currentDayOfWeek + 1) : 1;
         }
     }
-    currentDayOfWeek = currentDayOfWeek < 7 ? (currentDayOfWeek + 1) : 1;
 }
-
 // TODO: return your answer for this prompt.
 return sumOfSundays;
