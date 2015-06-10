@@ -40,22 +40,20 @@ function divisorsOf(n) {
 var abundantNumbers = [],
     sumsOfAbundants = {},
     limit           = 28123,
-    halfIndex       = 0,
     result          = 0;
 for (var i = 12; i <= limit; i++) {
     if (sumOf(divisorsOf(i)) > i) {
         abundantNumbers.push(i);
-        if (halfIndex === 0 && i > parseInt(limit / 2, 10)) {
-            halfIndex = abundantNumbers.length;
-        }
     }
 }
 
-for (i = 0; i < halfIndex; i++) {
+for (i = 0; i < abundantNumbers.length; i++) {
     for (var j = i; j < abundantNumbers.length; j++) {
         var sum = abundantNumbers[i] + abundantNumbers[j];
         if (sum <= limit) {
             sumsOfAbundants[sum] = sum;
+        } else {
+            break;
         }
     }
 }
